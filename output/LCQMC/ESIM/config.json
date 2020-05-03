@@ -1,5 +1,6 @@
 {
   "_num_labels": 1,
+  "acc": 0.7642581231538287,
   "architectures": [
     "ESIM"
   ],
@@ -10,7 +11,7 @@
   "decoder_start_token_id": null,
   "do_sample": false,
   "down_scale_factor": 1,
-  "dropout": 0.5,
+  "dropout": 0.1,
   "early_stopping": false,
   "embedding_size": 128,
   "eos_token_id": 3,
@@ -18,7 +19,7 @@
   "gap_size": 0,
   "hidden_act": "gelu",
   "hidden_dropout_prob": 0.0,
-  "hidden_size": 300,
+  "hidden_size": 128,
   "id2label": {
     "0": "LABEL_0"
   },
