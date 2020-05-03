@@ -39,7 +39,7 @@ if __name__ == "__main__":
             best = acc
             e_t = 0
             net.save_pretrained(
-                "/home/longred/BertForSentenceSimilarity/output/LCQMC/albert")
+                "/home/longred/BertForSentenceSimilarity/output/LCQMC/albert/")
             print("model save")
         e_t += 1
         if e_t > 15:
