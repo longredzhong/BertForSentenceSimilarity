@@ -23,18 +23,13 @@ if __name__ == "__main__":
         pretrained_model_name_or_path="/home/longred/BertForSentenceSimilarity/prev_trained_model/albert_tiny_zh/pytorch_model.bin",
         config=config).to(device)
     # %%
-    optimizer = torch.optim.Adam(net.parameters(), lr=1e-5)
-    # %%
-    trainepochloss = train(net,train_data_loader,optimizer,device)
-    print(trainepochloss)
-    # %%
-    evalepochloss,acc = evaluate(net,dev_data_loader,device)
-    print(evalepochloss,acc)
+    optimizer = torch.optim.Adam(net.parameters(), lr=1e-4)
 
     # %%
-    for i in range(20):
+    for i in range(10):
         trainepochloss = train(net, train_data_loader, optimizer, device)
         print(trainepochloss)
         evalepochloss, acc = evaluate(net, dev_data_loader, device)
         print(evalepochloss, acc)
-# %%
+    # %%
+    net.save_pretrained("/home/longred/BertForSentenceSimilarity/output/LCQMC")
