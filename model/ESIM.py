@@ -29,7 +29,7 @@ class ESIM(AlbertPreTrainedModel):
         self._classification = nn.Sequential(nn.Dropout(p=config.dropout),
                                              nn.Linear(2*4*config.hidden_size,
                                                        config.hidden_size),
-                                             nn.Tanh(),
+                                             nn.ReLU(),
                                              nn.Dropout(p=config.dropout),
                                              nn.Linear(config.hidden_size,
                                                        config.num_labels))
