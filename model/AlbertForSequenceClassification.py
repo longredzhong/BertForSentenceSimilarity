@@ -35,7 +35,7 @@ class AlbertForSequenceClassification(AlbertPreTrainedModel):
         if labels is not None:
             if self.num_labels == 1:
                 #  We are doing regression
-                loss_fct = MSELoss()
+                loss_fct = MSELoss(reduction='sum')
                 loss = loss_fct(logits.view(-1), labels.view(-1))
             else:
                 loss_fct = CrossEntropyLoss()
