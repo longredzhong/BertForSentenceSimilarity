@@ -14,7 +14,7 @@ class LCQMCDataset(Dataset):
         for i in data:
             input_1 = tokenizer.encode(i[0],max_length=512)[0]
             input_2 = tokenizer.encode(i[1], max_length=512)[0]
-            label = i[2]
+            label = int(i[2])
             examples.append(Example.fromlist([input_1, input_2, label], fields))
         super().__init__(examples, fields)
 
@@ -29,7 +29,7 @@ class LCQMCDataset_pair(Dataset):
         for i in data:
             input_ids, segment_ids = tokenizer.encode(
                 i[0], i[1], max_length=512)
-            label = i[2]
+            label = int(i[2])
             examples.append(Example.fromlist(
                 [input_ids, segment_ids, label], fields))
         super().__init__(examples, fields)
