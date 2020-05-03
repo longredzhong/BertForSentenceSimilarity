@@ -5,7 +5,7 @@ Definition of custom layers for the ESIM model.
 
 import torch.nn as nn
 
-from utils import sort_by_seq_lens, masked_softmax, weighted_sum
+from .utils import sort_by_seq_lens, masked_softmax, weighted_sum
 
 
 # Class widely inspired from:
