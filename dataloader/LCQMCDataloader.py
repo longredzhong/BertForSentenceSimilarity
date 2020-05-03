@@ -15,7 +15,7 @@ class LCQMCDataset(Dataset):
             input_1 = tokenizer.encode(i[0],max_length=512)[0]
             input_2 = tokenizer.encode(i[1], max_length=512)[0]
             label = int(i[2])
-            examples.append(Example.fromlist([input_1, input_2, label], fields))
+            examples.append(Example.fromlist([input_1,len(input_1), input_2,len(input_2), label], fields))
         super().__init__(examples, fields)
 
 class LCQMCDataset_pair(Dataset):
@@ -31,14 +31,16 @@ class LCQMCDataset_pair(Dataset):
                 i[0], i[1], max_length=512)
             label = int(i[2])
             examples.append(Example.fromlist(
-                [input_ids, segment_ids, label], fields))
+                [input_ids,len(input_ids), segment_ids,len(segment_ids), label], fields))
         super().__init__(examples, fields)
 
 
 def LCQMCDataLoader(data_path, vocab_path,batch_size = 32,is_pair=False):
     fields = [
         ("input_1", RawField(postprocessing=sequence_padding)),
+        ("input_1_len",RawField(postprocessing=toTensor)),
         ("input_2", RawField(postprocessing=sequence_padding)),
+        ("input_2_len", RawField(postprocessing=toTensor)),
         ("label", RawField(postprocessing=toTensor))
     ]
     tokenizer = Tokenizer(vocab_path)
