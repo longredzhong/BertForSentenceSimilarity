@@ -13,21 +13,21 @@ if __name__ == "__main__":
     dev_data_path = "/home/longred/BertForSentenceSimilarity/dataset/LCQMC/dev.txt"
     vocab_path = "/home/longred/BertForSentenceSimilarity/prev_trained_model/albert_tiny_zh/vocab.txt"
 
-    train_data_loader = LCQMCDataLoader(train_data_path,vocab_path,batch_size=256,is_pair=True)
-    dev_data_loader = LCQMCDataLoader(dev_data_path, vocab_path, batch_size=256, is_pair=True)
+    train_data_loader = LCQMCDataLoader(train_data_path,vocab_path,batch_size=512,is_pair=True)
+    dev_data_loader = LCQMCDataLoader(dev_data_path, vocab_path, batch_size=512, is_pair=True)
 
     config = AlbertConfig.from_pretrained(
         "/home/longred/BertForSentenceSimilarity/prev_trained_model/albert_tiny_zh/config.json")
     config.num_labels = 1
-    config.hidden_size = 300
-    config.dropout = 0.5
+    config.hidden_size = 128
+    config.dropout = 0.1
     device = torch.device('cuda:1' if torch.cuda.is_available() else 'cpu')
     # device = torch.device('cpu')
     net = ESIM.from_pretrained(
         pretrained_model_name_or_path="/home/longred/BertForSentenceSimilarity/prev_trained_model/albert_tiny_zh/pytorch_model.bin",
         config=config).to(device)
     # %%
-    optimizer = torch.optim.Adam(net.parameters(), lr=5e-4)
+    optimizer = torch.optim.Adam(net.parameters(), lr=5e-3)
     scheduler = lr_scheduler.CosineAnnealingLR(
         optimizer, T_max=10, eta_min=1e-8)
     best = 0
@@ -41,9 +41,10 @@ if __name__ == "__main__":
         if acc > best:
             best = acc
             e_t = 0
+            config.acc = best
             net.save_pretrained(
                 "/home/longred/BertForSentenceSimilarity/output/LCQMC/ESIM/")
-            print("model save")
+            print("model save  acc=",best)
         e_t += 1
-        if e_t > 15:
+        if e_t > 20:
             break
