@@ -1,6 +1,7 @@
 #%%
 import torch
 from model.AlbertForSequenceClassification import AlbertForSequenceClassification
+from model.ESIM import ESIM
 from dataloader.LCQMCDataloader import LCQMCDataLoader
 from transformers.modeling_albert import AlbertConfig
 
@@ -18,9 +19,11 @@ if __name__ == "__main__":
     config = AlbertConfig.from_pretrained(
         "/home/longred/BertForSentenceSimilarity/prev_trained_model/albert_tiny_zh/config.json")
     config.num_labels = 1
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    config.hidden_size = 300
+    config.dropout = 0.5
+    device = torch.device('cuda:1' if torch.cuda.is_available() else 'cpu')
     # device = torch.device('cpu')
-    net = AlbertForSequenceClassification.from_pretrained(
+    net = ESIM.from_pretrained(
         pretrained_model_name_or_path="/home/longred/BertForSentenceSimilarity/prev_trained_model/albert_tiny_zh/pytorch_model.bin",
         config=config).to(device)
     # %%
@@ -30,16 +33,16 @@ if __name__ == "__main__":
     best = 0
     e_t = 0
     while (True):
-        epoch_loss = train(net, train_data_loader, optimizer, device)
+        epoch_loss = train(net, train_data_loader, optimizer, device,is_pair=False)
         print("epoch loss", epoch_loss)
-        evalepochloss, acc = evaluate(net, dev_data_loader, device)
+        evalepochloss, acc = evaluate(net, dev_data_loader, device,is_pair=False)
         print("eval eopch loss{0}  eval acc {1}".format(evalepochloss,acc))
         scheduler.step()
         if acc > best:
             best = acc
             e_t = 0
             net.save_pretrained(
-                "/home/longred/BertForSentenceSimilarity/output/LCQMC/albert/")
+                "/home/longred/BertForSentenceSimilarity/output/LCQMC/ESIM/")
             print("model save")
         e_t += 1
         if e_t > 15:
