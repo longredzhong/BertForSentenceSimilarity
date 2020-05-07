@@ -1,5 +1,6 @@
 {
   "_num_labels": 1,
+  "acc": 0.6458759372869802,
   "architectures": [
     "AlbertForSequenceClassification"
   ],
@@ -10,6 +11,7 @@
   "decoder_start_token_id": null,
   "do_sample": false,
   "down_scale_factor": 1,
+  "dropout": 0.5,
   "early_stopping": false,
   "embedding_size": 128,
   "eos_token_id": 3,
