@@ -1,6 +1,6 @@
 from transformers.modeling_albert import AlbertModel, AlbertPreTrainedModel
 from torch import nn
-from torch.nn.modules.loss import CrossEntropyLoss, MSELoss
+from torch.nn.modules.loss import BCELoss, BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 
 
 class AlbertForSequenceClassification(AlbertPreTrainedModel):
@@ -35,7 +35,7 @@ class AlbertForSequenceClassification(AlbertPreTrainedModel):
         if labels is not None:
             if self.num_labels == 1:
                 #  We are doing regression
-                loss_fct = MSELoss(reduction='sum')
+                loss_fct = BCEWithLogitsLoss()
                 loss = loss_fct(logits.view(-1), labels.view(-1))
             else:
                 loss_fct = CrossEntropyLoss()
